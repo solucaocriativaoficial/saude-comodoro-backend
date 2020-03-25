@@ -5,15 +5,13 @@ const PostosSchema = new Schema({
         type: String,
         required: true,
     },
-    opening_hours: {
-        start: {
-            type: String,
-            required: true,
-        },
-        stop: {
-            type: String,
-            required: true,
-        }
+    open: {
+        type: String,
+        required: true,
+    },
+    close: {
+        type: String,
+        required: true,
     },
     postos_merger: [String]
 },{
