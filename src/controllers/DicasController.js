@@ -3,7 +3,30 @@ const Model = require('../models/Dicas');
 module.exports = {
     async findAll(req, res){
         const content = await Model.find();
-        if(content.length)
+        if(!content.length)
+        res.status(200).json({
+            success: false,
+            message: 'Nenhum registro encontrado'
+        })
+
+        const limitArticle = content.map(dica => {
+            const {article, ...rest} = dica._doc
+            if(dica.article.length > 90)
+            return Object.assign(rest,{
+                article: dica.article.substring(0,90) + "..."
+            })
+
+            return dica
+        })
+
+        res.status(200).json({
+            success: true,
+            content: limitArticle
+        })        
+    },
+    async findById(req, res){
+        const content = await Model.findById(req.params.id);
+        if(content)
         res.status(200).json({
             success: true,
             content: content

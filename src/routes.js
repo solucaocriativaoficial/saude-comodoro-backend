@@ -18,6 +18,7 @@ Router.put('/postos/:id', PostosController.update)
 Router.delete('/postos/:id', PostosController.delete)
 
 Router.get('/dicas', DicasController.findAll)
+Router.get('/dicas/1/:id', DicasController.findById)
 Router.post('/dicas/add', DicasController.insert)
 Router.put('/dicas/:id', DicasController.update)
 Router.delete('/dicas/:id', DicasController.delete)
