@@ -3,7 +3,15 @@ const ModelPerson = require('../models/Person');
 
 module.exports = {
     async findAll(req, res){
-        const content = await Model.find();
+        let filter = {}
+        
+        if(req.query.find !== undefined)
+        {
+            const find = new RegExp(req.query.find, 'i')
+            filter = {name: find}
+        }
+        
+        const content = await Model.find(filter)
         if(content.length)
         res.status(200).json({
             success: true,
@@ -12,7 +20,8 @@ module.exports = {
         
         res.status(200).json({
             success: false,
-            message: 'Nenhum registro encontrado'
+            message: 'Nenhum registro encontrado',
+            find: req.query.find,
         })
     },
     async insert(req, res){
