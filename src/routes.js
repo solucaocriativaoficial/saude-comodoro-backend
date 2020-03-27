@@ -7,6 +7,7 @@ const DicasController = require('./controllers/DicasController')
 const DecressController = require('./controllers/DecressController')
 const CasesController = require('./controllers/CasesController')
 const SymptomsController = require('./controllers/SymptomsController')
+const PersonController = require('./controllers/PersonController')
 
 Router.get('/phone', PhoneController.findAll)
 Router.post('/phone/add', PhoneController.insert)
@@ -38,5 +39,11 @@ Router.get('/symptoms', SymptomsController.findAll)
 Router.post('/symptoms/add', SymptomsController.insert)
 Router.put('/symptoms/:id', SymptomsController.update)
 Router.delete('/symptoms/:id', SymptomsController.delete)
+
+Router.get('/person', PersonController.findAll)
+Router.post('/person/add', PersonController.insert)
+Router.put('/person/:id', PersonController.update)
+Router.delete('/person/:id', PersonController.delete)
+Router.post('/auth', PersonController.auth)
 
 module.exports = Router

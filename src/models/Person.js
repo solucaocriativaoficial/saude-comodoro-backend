@@ -1,22 +1,23 @@
 const mongoose = require('../database');
+mongoose.set('useCreateIndex', true)
 const Schema = mongoose.Schema
-const DicasSchema = new Schema({
+const PersonSchema = new Schema({
     name: {
         type: String,
         required: true,
     },
-    article: {
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    password:{
         type: String,
         required: true,
     },
-    _personId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Person",
-        required: true,
-    }
 },{
-    collection: "dicas",
+    collection: "person",
     timestamps: {createdAt: "created_at", updatedAt: "updated_at"}
 })
 
-module.exports = mongoose.model('Dicas', DicasSchema)
+module.exports = mongoose.model('Person', PersonSchema)

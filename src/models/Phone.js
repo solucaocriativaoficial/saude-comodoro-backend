@@ -8,6 +8,11 @@ const PhoneSchema = new Schema({
     number_phone: {
         type: String,
         required: true,
+    },
+    _personId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Person",
+        required: true,
     }
 },{
     collection: "phone",

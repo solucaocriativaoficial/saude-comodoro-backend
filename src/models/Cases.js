@@ -16,6 +16,11 @@ const CasesSchema = new Schema({
         type: Number,
         required: true,
     },
+    _personId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Person",
+        required: true,
+    }
 },{
     collection: "cases",
     timestamps: {createdAt: "created_at", updatedAt: "updated_at"}

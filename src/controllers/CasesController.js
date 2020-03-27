@@ -1,4 +1,5 @@
 const Model = require('../models/Cases');
+const ModelPerson = require('../models/Person');
 
 module.exports = {
     async findAll(req, res){
@@ -15,6 +16,23 @@ module.exports = {
         })
     },
     async insert(req, res){
+        let storage = ''
+        try {
+            const Authorizate = await ModelPerson.findById(req.headers.auth, ["_id"])
+            if(!Authorizate)
+            res.status(401).json({
+                success: false,
+                message: "Access not authorized, id Person inválid"
+            })
+
+            storage = Object.assign({_personId: Authorizate._id}, req.body)
+        } catch (error) {
+            res.status(401).json({
+                success: false,
+                message: "Error in check validate for person!"
+            })
+        }
+
         const query = req.body.local
         try {
             const content = await Model.find({local: /query/i})
@@ -31,7 +49,7 @@ module.exports = {
         }
 
         try {
-            const content = await Model.create(req.body)
+            const content = await Model.create(storage)
             if(content)
             res.status(200).json({
                 success: true,
@@ -52,6 +70,20 @@ module.exports = {
     },
     async delete(req, res){
         try {
+            const Authorizate = await ModelPerson.findById(req.headers.auth, ["_id"])
+            if(!Authorizate)
+            res.status(401).json({
+                success: false,
+                message: "Access not authorized, id Person inválid"
+            })
+        } catch (error) {
+            res.status(401).json({
+                success: false,
+                message: "Error in check validate for person!"
+            })
+        }
+
+        try {
             const ifExistsRegister = await Model.findById(req.params.id)
 
             if(!ifExistsRegister)
@@ -60,35 +92,53 @@ module.exports = {
                 message: "Código deste registro não foi encontrado!"
             })
 
-            try{
-                const content_delete = await Model.deleteOne({_id: req.params.id})
-                if(content_delete)
-                res.status(200).json({
-                    success: true,
-                    message: "Registro deletado com sucesso!"
-                })                
-
-                res.status(400).json({
-                    success: false,
-                    message: "Registro não foi deletado!"
-                })
-            }
-            catch(error) {
-                res.status(400).json({
-                    success: false,
-                    message: "Erro ao deletar registro!"
-                })
-            }
         } catch(error) {
             res.status(400).json({
                 success: false,
                 message: "Erro ao verificar existencia do registro!"
             })
         }
+
+        try{
+            const content_delete = await Model.deleteOne({_id: req.params.id})
+            if(content_delete)
+            res.status(200).json({
+                success: true,
+                message: "Registro deletado com sucesso!"
+            })                
+
+            res.status(400).json({
+                success: false,
+                message: "Registro não foi deletado!"
+            })
+        }
+        catch(error) {
+            res.status(400).json({
+                success: false,
+                message: "Erro ao deletar registro!"
+            })
+        }
     },
     async update(req, res){
+        let storage = ''
         try {
-            const content = await Model.updateOne({_id: req.params.id}, req.body)
+            const Authorizate = await ModelPerson.findById(req.headers.auth, ["_id"])
+            if(!Authorizate)
+            res.status(401).json({
+                success: false,
+                message: "Access not authorized, id Person inválid"
+            })
+
+            storage = Object.assign({_personId: Authorizate._id}, req.body)
+        } catch (error) {
+            res.status(401).json({
+                success: false,
+                message: "Error in check validate for person!"
+            })
+        }
+
+        try {
+            const content = await Model.updateOne({_id: req.params.id}, storage)
             if(content.nModified)
             res.status(200).json({
                 success: true,

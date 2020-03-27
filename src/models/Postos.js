@@ -5,15 +5,31 @@ const PostosSchema = new Schema({
         type: String,
         required: true,
     },
-    open: {
-        type: String,
-        required: true,
+    atendimento: {
+        initial_hours: {
+            type: String,
+            required: true,
+        },
+        final_hours: {
+            type: String,
+            required: true,
+        },
     },
-    close: {
-        type: String,
-        required: true,
+    coords:{
+        latitude: {
+            type: Number,
+            required: true,
+        },
+        longitude: {
+            type: Number,
+            required: true,
+        },
     },
-    postos_merger: [String]
+    _personId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Person",
+        required: true,
+    }
 },{
     collection: "postos",
     timestamps: {createdAt: "created_at", updatedAt: "updated_at"}

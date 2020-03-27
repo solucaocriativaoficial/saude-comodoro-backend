@@ -5,6 +5,11 @@ const Symptoms = new Schema({
         type: String,
         required: true,
     },
+    _personId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Person",
+        required: true,
+    }
 },{
     collection: "symptoms",
     timestamps: {createdAt: "created_at", updatedAt: "updated_at"}
