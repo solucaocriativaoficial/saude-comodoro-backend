@@ -24,6 +24,26 @@ module.exports = {
             find: req.query.find,
         })
     },
+    async findId(req, res){
+        try {
+            const content = await Model.findById(req.params.id);
+            if(content)
+            res.status(200).json({
+                success: true,
+                content: content
+            })
+            
+            res.status(200).json({
+                success: false,
+                message: 'Nenhum registro encontrado'
+            })
+        } catch (error) {
+            res.status(404).json({
+                success: false,
+                message: 'Erro na pesquisa pelo registro!'
+            })
+        }
+    },
     async insert(req, res){
         let storage = ''
         try {

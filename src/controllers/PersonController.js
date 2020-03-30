@@ -15,6 +15,26 @@ module.exports = {
             message: 'Nenhum registro encontrado'
         })
     },
+    async findId(req, res){
+        try {
+            const content = await Model.findById(req.params.id).select(["_id","name", "email"]);
+            if(content)
+            res.status(200).json({
+                success: true,
+                content: content
+            })
+            
+            res.status(200).json({
+                success: false,
+                message: 'Nenhum registro encontrado'
+            })
+        } catch (error) {
+            res.status(404).json({
+                success: false,
+                message: 'Erro na pesquisa pelo registro!'
+            })
+        }
+    },
     async auth(req, res){
         const content = await Model.findOne({
             email: req.body.email
@@ -40,9 +60,9 @@ module.exports = {
         })
     },
     async insert(req, res){
-        const query = req.body.name
+        const query = RegExp(req.body.name, "i");
         try {
-            const content = await Model.find({name: /query/i})
+            const content = await Model.find({name: query})
             if(content.length)
             res.status(401).json({
                 success: true,

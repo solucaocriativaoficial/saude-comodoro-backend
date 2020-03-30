@@ -9,6 +9,6 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(Router)
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3333, () => {
     console.log("Servidor está funcionando!")
 })
