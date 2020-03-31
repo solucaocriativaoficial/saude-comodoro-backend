@@ -79,14 +79,17 @@ module.exports = {
             const {password, ...restContent} = req.body
             const newPassword = bcrypt.hashSync(password, 10)
             const join_data = Object.assign({password: newPassword}, restContent)
-            console.log(join_data)
+
             const content = await Model.create(join_data)
             if(content)
-            res.status(200).json({
-                success: true,
-                message: "Cadastro realizado com sucesso"
-            })
-
+            {
+                const id = await Model.findOne({email: req.body.email}, ["_id"]);
+                res.status(200).json({
+                    success: true,
+                    content: id
+                })
+    
+            }
             res.status(200).json({
                 success: false,
                 message: 'Não foi possível cadastrar!'
